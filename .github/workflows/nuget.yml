@@ -14,6 +14,8 @@ jobs:
       - name: Update Package Id
         run: bash scripts/package-name-update.sh ${{secrets.NUGET_PACKAGE_NAME}}
         
+      - name: Build
+        run: dotnet build --configuration Release "src/OpenVASP.CSharpClient.sln"
       - name: Test
         run: dotnet test --configuration Release "src/OpenVASP.CSharpClient.sln"
 
