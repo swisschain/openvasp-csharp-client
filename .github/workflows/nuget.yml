@@ -21,11 +21,3 @@ jobs:
         run: dotnet pack --configuration Release src/OpenVASP.CSharpClient/OpenVASP.CSharpClient.csproj /p:Version=${GITHUB_REF#refs/tags/}
       - name: Publish the package to GPR
         run: dotnet nuget push src/OpenVASP.CSharpClient/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}
-
-      - name: Publish NuGet
-        uses: rohith/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: src/OpenVASP.CSharpClient/OpenVASP.CSharpClient.csproj
-          VERSION_REGEX: <Version>(.*)<\/Version>
-          PACKAGE_NAME: ${{secrets.NUGET_PACKAGE_NAME}}
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
