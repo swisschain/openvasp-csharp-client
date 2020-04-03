@@ -1,0 +1,18 @@
+name: Validate commit
+
+on: [push, pull_request]
+
+jobs:
+  publish:
+    name: List on NuGet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: dotnet build --configuration Release "src/OpenVASP.CSharpClient.sln"
+      - name: Test
+        run: dotnet test --configuration Release "src/OpenVASP.CSharpClient.sln"
+        env: 
+          WHISPER_RPC_URL: ${{secrets.WHISPER_RPC_URL}}
+          ETHEREUM_RPC_URL: ${{secrets.ETHEREUM_RPC_URL}}

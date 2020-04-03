@@ -1,6 +1,8 @@
 name: Publish On NuGet
 
-on: [push]
+on:
+  push:
+    tags: "*"
 
 jobs:
   publish:
@@ -16,6 +18,12 @@ jobs:
         env: 
           WHISPER_RPC_URL: ${{secrets.WHISPER_RPC_URL}}
           ETHEREUM_RPC_URL: ${{secrets.ETHEREUM_RPC_URL}}
+
+      - name: Create the package
+        run: dotnet pack --configuration Release src/OpenVASP.CSharpClient/OpenVASP.CSharpClient.csproj /p:Version=${GITHUB_REF#refs/tags/} /p:PackageId=${{ secrets.NUGET_PACKAGE_NAME }}
+      - name: Publish the package to GPR
+        run: dotnet nuget push src/OpenVASP.CSharpClient/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}
+
       - name: Publish NuGet
         uses: rohith/publish-nuget@v2
         with:
