@@ -16,8 +16,6 @@ jobs:
         
       - name: Build
         run: dotnet build --configuration Release "src/OpenVASP.CSharpClient.sln"
-      - name: Test
-        run: dotnet test --configuration Release "src/OpenVASP.CSharpClient.sln"
 
       - name: Create the package
         run: dotnet pack --configuration Release src/OpenVASP.CSharpClient/OpenVASP.CSharpClient.csproj /p:Version=${GITHUB_REF#refs/tags/}
